@@ -4,9 +4,10 @@ FSJS project 5 - Public API Requests
 ******************************************/
 
 getUsers();
+showSearchBar();
 
 function getUsers() {
-  fetch('https://randomuser.me/api/?results=12')
+  fetch('https://randomuser.me/api/?results=12&nat=us')
     .then(response => response.json())
     .then(data => displayUsers(data.results));
 }
@@ -132,3 +133,50 @@ function display_modal(user) {
 
   document.getElementsByTagName('body')[0].appendChild(modal_container_div);
 }
+
+/*
+   The showSearchBar function, displays a search bar,
+   allowing the search of users.
+*/
+
+function showSearchBar() {
+  let search_container = document.getElementsByClassName('search-container')[0];
+
+  let input = document.createElement('input');
+  input.type = 'search';
+  input.id = 'search-input';
+  input.className = 'search-input';
+  input.addEventListener('keyup',search_users);
+  input.placeholder = 'Search...';
+  search_container.appendChild(input);
+
+  let button = document.createElement('input');
+  button.type = 'submit';
+  button.value = '🔍';
+  button.id = 'search-submit';
+  button.className = 'search-submit';
+  button.addEventListener('click',search_users);
+  search_container.appendChild(button);
+  
+ /*
+    The search_users function, searches the users' array to find and 
+    display matches.
+  */
+
+  function search_users() {
+     let users_array = document.getElementsByClassName('card'); //Array of users to search.
+     for (let i = 0; i < users_array.length;i++) {
+        let user = users_array[i].getElementsByTagName('h3')[0].innerText;
+        if ( (input.value.length > 0) && user.toLowerCase().includes(input.value.toLowerCase()) ) {
+          users_array[i].style.display = '';
+        } else {
+          users_array[i].style.display = 'none';
+        }
+     }
+     if (input.value.length === 0) {
+      for (let i = 0; i < users_array.length;i++) {
+        users_array[i].style.display = '';
+      }
+   }
+    }
+  }
