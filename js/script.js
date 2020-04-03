@@ -14,14 +14,15 @@ function getUsers() {
 
 function displayUsers(users) {
   for (let i = 0; i < users.length; i++) {
-    document.getElementById('gallery').appendChild(createUser(users[i]));
+    document.getElementById('gallery').appendChild(createUser(users, i));
   }
 }
 
-function createUser(user) {
+function createUser(users, i) {
+  let user = users[i];
   let card_div = document.createElement('div');
   card_div.className = 'card';
-  card_div.addEventListener('click', () => display_modal(user));
+  card_div.addEventListener('click', () => display_modal(users, i));
 
   let img_div = document.createElement('div');
   img_div.className = 'card-img-container';
@@ -58,7 +59,8 @@ function createUser(user) {
   return card_div;
 }
 
-function display_modal(user) {
+function display_modal(users, i) {
+  let user = users[i];
   let modal_container_div = document.createElement('div');
   modal_container_div.className = 'modal-container';
 
@@ -119,6 +121,36 @@ function display_modal(user) {
   birthday.className = 'modal-text';
   birthday.innerText = 'Birthday: ' + user.dob.date;
 
+  let modal_btn_container = document.createElement('div');
+  modal_btn_container.className = 'modal-btn-container';
+
+  let modal_prev_btn = document.createElement('button');
+  modal_prev_btn.type = 'button';
+  modal_prev_btn.id = 'modal-prev';
+  modal_prev_btn.className = 'modal-prev btn';
+  modal_prev_btn.innerText = 'Prev';
+  modal_prev_btn.addEventListener('click', () => {
+    modal_container_div.parentNode.removeChild(modal_container_div);
+    let index = i-1;
+    if ( index < 0) index = 0;
+    display_modal(users,index);
+  });
+
+  let modal_next_btn = document.createElement('button');
+  modal_next_btn.type = 'button';
+  modal_next_btn.id = 'modal-next';
+  modal_next_btn.className = 'modal-next btn';
+  modal_next_btn.innerText = 'Next';
+  modal_next_btn.addEventListener('click', () => {
+    modal_container_div.parentNode.removeChild(modal_container_div);
+    let index = i+1;
+    if ( index >= users.length) index = users.length-1;
+    display_modal(users,index);
+  });
+
+  modal_btn_container.appendChild(modal_prev_btn);
+  modal_btn_container.appendChild(modal_next_btn);
+
   modal_div.appendChild(button);
   modal_div.appendChild(img);
   modal_div.appendChild(name);
@@ -128,6 +160,7 @@ function display_modal(user) {
   modal_div.appendChild(phone);
   modal_div.appendChild(location_full);
   modal_div.appendChild(birthday);
+  modal_div.appendChild(modal_btn_container);
 
   modal_container_div.appendChild(modal_div);
 
@@ -146,7 +179,7 @@ function showSearchBar() {
   input.type = 'search';
   input.id = 'search-input';
   input.className = 'search-input';
-  input.addEventListener('keyup',search_users);
+  input.addEventListener('keyup', search_users);
   input.placeholder = 'Search...';
   search_container.appendChild(input);
 
@@ -155,28 +188,31 @@ function showSearchBar() {
   button.value = '🔍';
   button.id = 'search-submit';
   button.className = 'search-submit';
-  button.addEventListener('click',search_users);
+  button.addEventListener('click', search_users);
   search_container.appendChild(button);
-  
- /*
+
+  /*
     The search_users function, searches the users' array to find and 
     display matches.
   */
 
   function search_users() {
-     let users_array = document.getElementsByClassName('card'); //Array of users to search.
-     for (let i = 0; i < users_array.length;i++) {
-        let user = users_array[i].getElementsByTagName('h3')[0].innerText;
-        if ( (input.value.length > 0) && user.toLowerCase().includes(input.value.toLowerCase()) ) {
-          users_array[i].style.display = '';
-        } else {
-          users_array[i].style.display = 'none';
-        }
-     }
-     if (input.value.length === 0) {
-      for (let i = 0; i < users_array.length;i++) {
+    let users_array = document.getElementsByClassName('card'); //Array of users to search.
+    for (let i = 0; i < users_array.length; i++) {
+      let user = users_array[i].getElementsByTagName('h3')[0].innerText;
+      if (
+        input.value.length > 0 &&
+        user.toLowerCase().includes(input.value.toLowerCase())
+      ) {
+        users_array[i].style.display = '';
+      } else {
+        users_array[i].style.display = 'none';
+      }
+    }
+    if (input.value.length === 0) {
+      for (let i = 0; i < users_array.length; i++) {
         users_array[i].style.display = '';
       }
-   }
     }
   }
+}
