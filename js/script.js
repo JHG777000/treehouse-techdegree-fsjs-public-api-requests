@@ -9,8 +9,8 @@ showSearchBar();
 //get 12 random employees from https://randomuser.me.
 function getUsers() {
   fetch('https://randomuser.me/api/?results=12&nat=us')
-    .then(response => response.json())
-    .then(data => displayUsers(data.results));
+    .then((response) => response.json())
+    .then((data) => displayUsers(data.results));
 }
 
 //display users('employees')
@@ -24,7 +24,7 @@ function displayUsers(users) {
 function createUser(users, i) {
   //get user from users
   let user = users[i];
-  //create html dom elements for the user 
+  //create html dom elements for the user
   let card_div = document.createElement('div');
   card_div.className = 'card';
   //add event listener for modal
@@ -69,7 +69,7 @@ function createUser(users, i) {
 function display_modal(users, i) {
   //get user from users
   let user = users[i];
-  //create html dom elements for the modal 
+  //create html dom elements for the modal
   let modal_container_div = document.createElement('div');
   modal_container_div.className = 'modal-container';
 
@@ -142,9 +142,9 @@ function display_modal(users, i) {
   //add event listener for Prev button
   modal_prev_btn.addEventListener('click', () => {
     modal_container_div.parentNode.removeChild(modal_container_div);
-    let index = i-1; //get previous user
-    if ( index < 0) index = 0; //make sure no error, reset to 0
-    display_modal(users,index); //display previous user
+    let index = i - 1; //get previous user
+    if (index < 0) index = 0; //make sure no error, reset to 0
+    display_modal(users, index); //display previous user
   });
 
   let modal_next_btn = document.createElement('button');
@@ -155,10 +155,10 @@ function display_modal(users, i) {
   //add event listener for Next button
   modal_next_btn.addEventListener('click', () => {
     modal_container_div.parentNode.removeChild(modal_container_div);
-    let index = i+1; //get next user
+    let index = i + 1; //get next user
     //make sure no error, reset to last user
-    if ( index >= users.length) index = users.length-1;
-    display_modal(users,index); //display next user
+    if (index >= users.length) index = users.length - 1;
+    display_modal(users, index); //display next user
   });
 
   modal_btn_container.appendChild(modal_prev_btn);
@@ -201,8 +201,8 @@ function showSearchBar() {
   button.addEventListener('click', search_users);
   search_container.appendChild(button);
 
-    //the search_users function, searches the users' array to find and 
-    //display matches
+  //the search_users function, searches the users' array to find and
+  //display matches
 
   function search_users() {
     let users_array = document.getElementsByClassName('card'); //array of users to search
