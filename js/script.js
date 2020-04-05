@@ -9,8 +9,8 @@ showSearchBar();
 //get 12 random employees from https://randomuser.me.
 function getUsers() {
   fetch('https://randomuser.me/api/?results=12&nat=us')
-    .then((response) => response.json())
-    .then((data) => displayUsers(data.results));
+    .then(response => response.json())
+    .then(data => displayUsers(data.results));
 }
 
 //display users('employees')
