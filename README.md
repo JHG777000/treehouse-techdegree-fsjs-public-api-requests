@@ -1,4 +1,4 @@
-# treehouse-techdegree-fsjs-project-5
+# treehouse-techdegree-fsjs-public-api-requests
 
 Public API Requests
 
